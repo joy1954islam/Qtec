@@ -1,1 +1,1 @@
-web: gunicorn Qtec_Django.wsgi --log-file -
+web: gunicorn qtec_task.wsgi --log-file -
