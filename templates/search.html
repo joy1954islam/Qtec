@@ -88,7 +88,6 @@
 <script type="text/javascript">
 
     $(document).ready(function(){
-      console.log("Works")
       $(".form-check-input").on('click',function () {
         var filter_obj = {}
         $(".form-check-input").each(function(){
@@ -96,7 +95,6 @@
                 return el.value;
             });
         });
-        console.log('filter_ obj = ', filter_obj);
 
         $.ajax({
             url: '{% url "ajax_search" %}',
