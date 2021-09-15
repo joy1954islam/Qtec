@@ -1,0 +1,22 @@
+<table class="table table-bordered">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Keywords</th>
+          <th scope="col">Details</th>
+          <th scope="col">User</th>
+          <th scope="col">Date</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for keyword in search %}
+        <tr>
+          <th scope="row">{{forloop.counter}}</th>
+          <td>{{keyword.keywords}}</td>
+          <td>{{keyword.details}}</td>
+          <td>{{keyword.user}}</td>
+          <td>{{keyword.search_date}}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>

@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <div class="row">
+        <div class="col-sm-3">
+            <p>All Keywords: </p>
+            {% for keyword in keyword %}
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="checkKeywords1" data-filter="keyword" value="{{keyword.keywords}}" id="checkKeywords1">
+                  <label class="form-check-label" for="checkKeywords">
+                    {{keyword.keywords}}
+                  </label>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="col-sm-3">
+            <p>All Users: </p>
+            {% for users in user %}
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="checkKeywords2" data-filter="user" value="{{users.username}}" id="checkKeywords2">
+                  <label class="form-check-label" for="checkKeywords">
+                    {{ users.username }}
+                  </label>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="col-sm-3">
+            <p>Time Range:</p>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" name="checkKeywords3" data-filter="time" value="{{yesterday}}" id="checkKeywords3">
+              <label class="form-check-label" for="checkKeywords">
+                See data from yesterday
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" name="checkKeywords4" data-filter="time" value="{{week}}" id="checkKeywords4">
+              <label class="form-check-label" for="checkKeywords">
+               See data from last week
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" name="checkKeywords5" data-filter="time" value="{{month}}" id="checkKeywords5" >
+              <label class="form-check-label" for="checkKeywords">
+               See data from last month
+              </label>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <p>Select Date:</p>
+            <div class="form-check">
+                <input class="form-check-input" type="date" name="checkKeywords6" data-filter="date" id="checkKeywords6">
+            </div>
+            <br><br>
+            <div class="form-check">
+                <input class="form-check-input" type="date" name="checkKeywords7" data-filter="date" id="checkKeywords7">
+            </div>
+        </div>
+    </div>
+
+    <br><br><br>
+    <br><br><br>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Keywords</th>
+          <th scope="col">Details</th>
+          <th scope="col">User</th>
+          <th scope="col">Date</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for keyword in keyword %}
+        <tr>
+          <th scope="row">{{forloop.counter}}</th>
+          <td>{{keyword.keywords}}</td>
+          <td>{{keyword.details}}</td>
+          <td>{{keyword.user}}</td>
+          <td>{{keyword.search_date}}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+{% endblock  %}
+
+{% block javascript %}
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+      console.log("Works")
+      $(".form-check-input").on('click',function () {
+        var filter_obj = {}
+        $(".form-check-input").each(function(){
+            filter_obj[$(this).data('filter')]=Array.from(document.querySelectorAll('input[data-filter='+$(this).data('filter')+']:checked')).map(function(el){
+                return el.value;
+            });
+        });
+        console.log('filter_ obj = ', filter_obj);
+
+        $.ajax({
+            url: '{% url "ajax_search" %}',
+            data: filter_obj,
+            dataType : 'json',
+            success : function(res){
+                console.log(res);
+                $('.table').html(res.data)
+            }
+        });
+      });
+    });
+  </script>
+
+{% endblock %}

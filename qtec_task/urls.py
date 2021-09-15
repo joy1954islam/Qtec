@@ -20,7 +20,8 @@ from django.conf.urls.static import static
 from core import views
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.home, name='home'),
+    path('', views.HomeListView.as_view(), name='home'),
+    path('ajax-search', views.search, name='ajax_search'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
